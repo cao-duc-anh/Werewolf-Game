@@ -1,0 +1,419 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Cinzel:wght@500;700;900&display=swap');
+
+:root {
+  /* Hệ màu Gothic & Đêm Tối Premium */
+  --bg-dark: #07080a;
+  --bg-card: #0d0f14;
+  --bg-card-hover: #141720;
+  --border-color: #1f2430;
+  --border-color-focus: #3e475e;
+  
+  --color-primary: #8e44ad;      /* Tím phép thuật (Ma thuật, Tiên tri) */
+  --color-primary-glow: rgba(142, 68, 173, 0.3);
+  --color-werewolf: #c0392b;     /* Đỏ máu (Ma sói, Sát thủ) */
+  --color-werewolf-glow: rgba(192, 57, 43, 0.3);
+  --color-gold: #f1c40f;         /* Vàng Luna (Trăng tròn, Dân làng) */
+  --color-gold-glow: rgba(241, 196, 15, 0.2);
+  --color-safe: #2ecc71;         /* Xanh lá (Bảo vệ, Còn sống) */
+  --color-safe-glow: rgba(46, 204, 113, 0.2);
+
+  --text-primary: #f5f6fa;
+  --text-muted: #7f8c8d;
+  --text-dark: #2c3e50;
+
+  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-gothic: 'Cinzel', serif;
+
+  font-family: var(--font-sans);
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: radial-gradient(circle at 50% 30%, #15101a 0%, var(--bg-dark) 70%);
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================================================================
+   HIỆU ỨNG NỀN & SƯƠNG MÙ KHÓI (WOW EFFECT)
+   ========================================================================= */
+.fog-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.12;
+  overflow: hidden;
+}
+
+.fog-layer {
+  position: absolute;
+  width: 200%;
+  height: 100%;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" stitchTiles="stitch" /></filter><rect width="1000" height="1000" filter="url(%23noise)" opacity="0.4" fill="white"/></svg>');
+  background-repeat: repeat-x;
+  animation: move-fog 60s linear infinite;
+}
+
+.fog-layer-2 {
+  position: absolute;
+  width: 200%;
+  height: 100%;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="4" stitchTiles="stitch" /></filter><rect width="1000" height="1000" filter="url(%23noise)" opacity="0.3" fill="white"/></svg>');
+  background-repeat: repeat-x;
+  animation: move-fog-reverse 85s linear infinite;
+  opacity: 0.7;
+}
+
+@keyframes move-fog {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes move-fog-reverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+/* =========================================================================
+   HIỆU ỨNG LẬT BÀI 3D CHỐNG NHÌN TRỘM (PRESS-AND-HOLD CARD FLIP)
+   ========================================================================= */
+.card-container {
+  perspective: 1200px;
+  width: 90vw;
+  max-width: 300px;
+  aspect-ratio: 3 / 4;
+  margin: 0 auto;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Placeholder background for cards without real images */
+.card-face.placeholder {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 600px) {
+  .card-container {
+    width: 95vw;
+    max-width: 260px;
+  }
+}
+
+.card-container.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-face img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  z-index: 0;
+}
+
+/* Mặt Úp Bài (Card Back) */
+.card-back {
+  background: radial-gradient(circle at 50% 50%, #151821 0%, #08090d 100%);
+  color: var(--text-primary);
+  border: 2px solid var(--color-primary);
+  box-shadow: 0 0 20px var(--color-primary-glow);
+}
+
+.card-back-ornament {
+  border: 1px solid rgba(142, 68, 173, 0.2);
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.card-back-ornament::before {
+  content: '';
+  position: absolute;
+  width: 85%;
+  height: 90%;
+  border: 1px dashed rgba(142, 68, 173, 0.1);
+  border-radius: 8px;
+}
+
+/* Mặt Ngửa Bài (Card Front) */
+.card-front {
+  background: radial-gradient(circle at 50% 30%, #1a1e29 0%, #0d0f14 100%);
+  transform: rotateY(180deg);
+}
+
+.card-front.role-werewolf {
+  border: 2px solid var(--color-werewolf);
+  box-shadow: 0 0 25px var(--color-werewolf-glow);
+}
+
+.card-front.role-villager {
+  border: 2px solid var(--color-gold);
+  box-shadow: 0 0 25px var(--color-gold-glow);
+}
+
+.card-front.role-special {
+  border: 2px solid var(--color-primary);
+  box-shadow: 0 0 25px var(--color-primary-glow);
+}
+
+/* =========================================================================
+   HIỆU ỨNG LỬA TRẠI BẬP BÙNG (BONFIRE ANIMATION)
+   ========================================================================= */
+.bonfire-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.fire-glow {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(230, 126, 34, 0.25) 0%, rgba(230, 126, 34, 0) 70%);
+  border-radius: 50%;
+  bottom: -20px;
+  animation: pulse-glow 2s ease-in-out infinite alternate;
+}
+
+.fire-flame {
+  position: absolute;
+  width: 25px;
+  border-radius: 50% 50% 20% 20% / 60% 60% 40% 40%;
+  transform-origin: bottom center;
+}
+
+.flame-1 {
+  height: 70px;
+  background: linear-gradient(to top, #d35400, #e67e22, #f1c40f);
+  animation: flicker-1 1.5s ease-in-out infinite alternate;
+  left: 45px;
+  z-index: 3;
+}
+
+.flame-2 {
+  height: 50px;
+  background: linear-gradient(to top, #c0392b, #d35400, #e67e22);
+  animation: flicker-2 1.2s ease-in-out infinite alternate;
+  left: 30px;
+  z-index: 2;
+  opacity: 0.8;
+}
+
+.flame-3 {
+  height: 55px;
+  background: linear-gradient(to top, #d35400, #e67e22, #f39c12);
+  animation: flicker-3 1.8s ease-in-out infinite alternate;
+  left: 60px;
+  z-index: 1;
+  opacity: 0.8;
+}
+
+.wood-logs {
+  position: absolute;
+  width: 80px;
+  height: 15px;
+  background: #3e2723;
+  border-radius: 4px;
+  bottom: 5px;
+  z-index: 4;
+  transform: rotate(-10deg);
+}
+
+.wood-logs::after {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 15px;
+  background: #270f07;
+  border-radius: 4px;
+  transform: rotate(20deg);
+}
+
+@keyframes pulse-glow {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  100% { transform: scale(1.1); opacity: 1; }
+}
+
+@keyframes flicker-1 {
+  0% { transform: scaleX(0.9) scaleY(0.95) rotate(-2deg); }
+  50% { transform: scaleX(1.05) scaleY(1.05) rotate(1deg); }
+  100% { transform: scaleX(0.95) scaleY(1.02) rotate(-1deg); }
+}
+
+@keyframes flicker-2 {
+  0% { transform: scaleX(1.05) scaleY(0.9) rotate(3deg); }
+  50% { transform: scaleX(0.9) scaleY(1.05) rotate(-2deg); }
+  100% { transform: scaleX(1) scaleY(1) rotate(1deg); }
+}
+
+@keyframes flicker-3 {
+  0% { transform: scaleX(0.95) scaleY(1.02) rotate(-3deg); }
+  50% { transform: scaleX(1.02) scaleY(0.95) rotate(2deg); }
+  100% { transform: scaleX(0.9) scaleY(1.05) rotate(-1deg); }
+}
+
+/* =========================================================================
+   STYLE CHO CÁC KHỐI & NÚT TRÊN GIAO DIỆN
+   ========================================================================= */
+.gothic-title {
+  font-family: var(--font-gothic);
+  font-size: 2.5rem;
+  letter-spacing: 3px;
+  text-shadow: 0 0 10px rgba(142, 68, 173, 0.4);
+  color: var(--text-primary);
+  margin: 15px 0;
+}
+
+.gothic-subtitle {
+  font-family: var(--font-gothic);
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  color: var(--color-gold);
+}
+
+.btn-premium {
+  background: linear-gradient(135deg, #8e44ad 0%, #6c3483 100%);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 28px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(142, 68, 173, 0.4);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-premium:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(142, 68, 173, 0.6);
+  background: linear-gradient(135deg, #9b59b6 0%, #7d3c98 100%);
+}
+
+.btn-premium:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: 30px;
+  padding: 12px 28px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--border-color-focus);
+}
+
+.glass-panel {
+  background: rgba(13, 15, 20, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* =========================================================================
+   SCROLLBAR & TEXT UTILITIES
+   ========================================================================= */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-color-focus);
+}
+
+.text-gradient-purple {
+  background: linear-gradient(135deg, #c39bd3, #8e44ad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-blood {
+  background: linear-gradient(135deg, #f1948a, #c0392b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
