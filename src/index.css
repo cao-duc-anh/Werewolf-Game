@@ -1,106 +1,342 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Cinzel:wght@500;700;900&display=swap');
+/* =============================================================================
+   TAILWIND v4 IMPORT — thay thế 3 dòng @tailwind cũ
+   ============================================================================= */
+@import "tailwindcss";
 
+/* =============================================================================
+   CSS VARIABLES & DESIGN TOKENS
+   ============================================================================= */
 :root {
-  /* Hệ màu Gothic & Đêm Tối Premium */
-  --bg-dark: #07080a;
-  --bg-card: #0d0f14;
-  --bg-card-hover: #141720;
-  --border-color: #1f2430;
-  --border-color-focus: #3e475e;
-  
-  --color-primary: #8e44ad;      /* Tím phép thuật (Ma thuật, Tiên tri) */
-  --color-primary-glow: rgba(142, 68, 173, 0.3);
-  --color-werewolf: #c0392b;     /* Đỏ máu (Ma sói, Sát thủ) */
-  --color-werewolf-glow: rgba(192, 57, 43, 0.3);
-  --color-gold: #f1c40f;         /* Vàng Luna (Trăng tròn, Dân làng) */
-  --color-gold-glow: rgba(241, 196, 15, 0.2);
-  --color-safe: #2ecc71;         /* Xanh lá (Bảo vệ, Còn sống) */
-  --color-safe-glow: rgba(46, 204, 113, 0.2);
-
-  --text-primary: #f5f6fa;
-  --text-muted: #7f8c8d;
-  --text-dark: #2c3e50;
-
-  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-gothic: 'Cinzel', serif;
-
-  font-family: var(--font-sans);
-  background-color: var(--bg-dark);
-  color: var(--text-primary);
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --font-gothic: 'Cinzel', 'Palatino Linotype', Georgia, serif;
+  --color-primary: #8e44ad;
+  --color-primary-dark: #6c3483;
+  --color-primary-glow: rgba(142, 68, 173, 0.4);
+  --color-wolf-red: #c0392b;
+  --color-gold: #f1c40f;
+  --color-bg-deep: #07080c;
+  --color-bg-card: #0c0f17;
+  --color-bg-panel: rgba(17, 19, 26, 0.85);
+  --color-border: #272935;
 }
+
+/* =============================================================================
+   GLOBAL BASE
+   ============================================================================= */
+*, *::before, *::after { box-sizing: border-box; }
 
 body {
-  margin: 0;
-  padding: 0;
+  background-color: #08090d;
+  color: #e5e5e5;
+  font-family: Inter, system-ui, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
-  background: radial-gradient(circle at 50% 30%, #15101a 0%, var(--bg-dark) 70%);
 }
 
-#root {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+/* =============================================================================
+   LAYOUT COMPONENTS
+   ============================================================================= */
+.glass-panel {
+  background-color: var(--color-bg-panel);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1.5rem;
+  border-radius: 0.875rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
 }
 
-/* =========================================================================
-   HIỆU ỨNG NỀN & SƯƠNG MÙ KHÓI (WOW EFFECT)
-   ========================================================================= */
+/* =============================================================================
+   TYPOGRAPHY
+   ============================================================================= */
+.gothic-title {
+  font-size: 2rem;
+  font-family: var(--font-gothic);
+  color: white;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+  text-shadow: 0 0 30px rgba(142, 68, 173, 0.5);
+}
+
+.gothic-subtitle {
+  font-family: var(--font-gothic);
+  color: var(--color-gold);
+  letter-spacing: 0.3em;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* =============================================================================
+   BUTTONS
+   ============================================================================= */
+.btn-premium {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #1b2132 0%, #151a28 100%);
+  border: 1px solid var(--color-primary);
+  color: #d1d5db;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 12px rgba(142, 68, 173, 0.15);
+}
+.btn-premium:hover:not(:disabled) {
+  background: var(--color-primary);
+  color: white;
+  box-shadow: 0 0 24px rgba(142, 68, 173, 0.45);
+  transform: translateY(-1px);
+}
+.btn-premium:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: #9ca3af;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-secondary:hover {
+  border-color: var(--color-primary);
+  color: white;
+}
+
+/* =============================================================================
+   FORM INPUTS
+   ============================================================================= */
+.gothic-input {
+  width: 100%;
+  background-color: #0a0c14;
+  border: 1px solid var(--color-border);
+  color: white;
+  padding: 0.75rem 1rem;
+  border-radius: 0.625rem;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+.gothic-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.15);
+}
+.gothic-input::placeholder {
+  color: #4b5563;
+}
+
+/* =============================================================================
+   AMBIENT GLOW BLOBS (background atmosphere)
+   ============================================================================= */
+.glow-blob-purple {
+  position: fixed;
+  top: -180px;
+  right: -180px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(142, 68, 173, 0.18) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  animation: blobFloat 12s ease-in-out infinite alternate;
+}
+.glow-blob-red {
+  position: fixed;
+  bottom: -150px;
+  left: -150px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(192, 57, 43, 0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  animation: blobFloat 16s ease-in-out infinite alternate-reverse;
+}
+@keyframes blobFloat {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(30px, 20px) scale(1.08); }
+}
+
+/* =============================================================================
+   FOG / MIST EFFECT
+   ============================================================================= */
 .fog-wrapper {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
+  inset: 0;
   pointer-events: none;
-  opacity: 0.12;
+  z-index: 1;
   overflow: hidden;
 }
-
-.fog-layer {
-  position: absolute;
-  width: 200%;
-  height: 100%;
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" stitchTiles="stitch" /></filter><rect width="1000" height="1000" filter="url(%23noise)" opacity="0.4" fill="white"/></svg>');
-  background-repeat: repeat-x;
-  animation: move-fog 60s linear infinite;
-}
-
+.fog-layer,
 .fog-layer-2 {
   position: absolute;
   width: 200%;
   height: 100%;
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="4" stitchTiles="stitch" /></filter><rect width="1000" height="1000" filter="url(%23noise)" opacity="0.3" fill="white"/></svg>');
-  background-repeat: repeat-x;
-  animation: move-fog-reverse 85s linear infinite;
-  opacity: 0.7;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='200'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012 0.008' numOctaves='4' seed='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='800' height='200' filter='url(%23f)' opacity='0.06'/%3E%3C/svg%3E")
+    repeat-x bottom;
+  background-size: 800px 200px;
+  opacity: 0.5;
+  animation: fogDrift 40s linear infinite;
 }
-
-@keyframes move-fog {
-  0% { transform: translateX(0); }
+.fog-layer-2 {
+  background-position: -400px bottom;
+  opacity: 0.3;
+  animation: fogDrift 60s linear infinite reverse;
+}
+@keyframes fogDrift {
+  0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
-@keyframes move-fog-reverse {
-  0% { transform: translateX(-50%); }
-  100% { transform: translateX(0); }
+/* =============================================================================
+   BONFIRE ANIMATION (menu chính)
+   ============================================================================= */
+.bonfire-container {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+}
+.fire-glow {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, rgba(241, 196, 15, 0.35) 0%, rgba(192, 57, 43, 0.15) 50%, transparent 80%);
+  border-radius: 50%;
+  animation: glowPulse 1.8s ease-in-out infinite alternate;
+}
+@keyframes glowPulse {
+  0%   { transform: translateX(-50%) scale(0.9); opacity: 0.6; }
+  100% { transform: translateX(-50%) scale(1.2); opacity: 1; }
+}
+.fire-flame {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  border-radius: 50% 50% 20% 20%;
+  transform-origin: bottom center;
+}
+.flame-1 {
+  height: 40px;
+  background: linear-gradient(to top, #f39c12, #e74c3c, transparent);
+  animation: flicker1 0.8s ease-in-out infinite alternate;
+  margin-left: -8px;
+  opacity: 0.9;
+}
+.flame-2 {
+  height: 52px;
+  background: linear-gradient(to top, #f1c40f, #e67e22, #e74c3c, transparent);
+  animation: flicker2 1s ease-in-out infinite alternate;
+  opacity: 0.85;
+}
+.flame-3 {
+  height: 36px;
+  background: linear-gradient(to top, #f39c12, #e74c3c, transparent);
+  animation: flicker3 0.7s ease-in-out infinite alternate;
+  margin-left: 6px;
+  opacity: 0.8;
+}
+@keyframes flicker1 {
+  0%   { transform: translateX(-50%) scaleX(1) scaleY(1) rotate(-3deg); }
+  100% { transform: translateX(-50%) scaleX(0.8) scaleY(1.15) rotate(4deg); }
+}
+@keyframes flicker2 {
+  0%   { transform: translateX(-50%) scaleX(0.9) scaleY(1) rotate(2deg); }
+  100% { transform: translateX(-50%) scaleX(1.1) scaleY(1.2) rotate(-3deg); }
+}
+@keyframes flicker3 {
+  0%   { transform: translateX(-50%) scaleX(1.1) scaleY(0.95) rotate(4deg); }
+  100% { transform: translateX(-50%) scaleX(0.85) scaleY(1.1) rotate(-5deg); }
+}
+.wood-logs {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 48px;
+  height: 10px;
+  background: linear-gradient(135deg, #4a2c0a, #6b3a0f, #3d2008);
+  border-radius: 4px;
 }
 
-/* =========================================================================
-   HIỆU ỨNG LẬT BÀI 3D CHỐNG NHÌN TRỘM (PRESS-AND-HOLD CARD FLIP)
-   ========================================================================= */
+/* =============================================================================
+   PLAYER CARD TILE (lobby danh sách)
+   ============================================================================= */
+.player-card-tile {
+  display: flex;
+  align-items: center;
+  padding: 0.625rem 0.875rem;
+  background-color: #0d1018;
+  border: 1px solid #1e2230;
+  border-radius: 0.625rem;
+  transition: border-color 0.2s;
+}
+.player-card-tile:hover {
+  border-color: rgba(142, 68, 173, 0.3);
+}
+
+/* LED đèn trạng thái sẵn sàng */
+.led-ready {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #2ecc71;
+  box-shadow: 0 0 6px rgba(46, 204, 113, 0.8);
+  animation: ledBlink 2s ease-in-out infinite;
+}
+@keyframes ledBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+/* =============================================================================
+   SCROLL CONTAINER (lobby scroll area)
+   ============================================================================= */
+.scroll-diary {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(142, 68, 173, 0.3) transparent;
+}
+.scroll-diary::-webkit-scrollbar { width: 4px; }
+.scroll-diary::-webkit-scrollbar-track { background: transparent; }
+.scroll-diary::-webkit-scrollbar-thumb {
+  background-color: rgba(142, 68, 173, 0.4);
+  border-radius: 2px;
+}
+
+/* =============================================================================
+   3D GOTHIC CARD FLIP
+   ============================================================================= */
 .card-container {
-  perspective: 1200px;
-  width: 90vw;
-  max-width: 300px;
-  aspect-ratio: 3 / 4;
+  width: 240px;
+  height: 360px;
   margin: 0 auto;
+  perspective: 1000px;
+  cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -109,311 +345,342 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
-  text-align: center;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
   transform-style: preserve-3d;
-  cursor: pointer;
-}
-
-.card-face {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  border-radius: inherit;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 24px;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-/* Placeholder background for cards without real images */
-.card-face.placeholder {
-  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-@media (max-width: 600px) {
-  .card-container {
-    width: 95vw;
-    max-width: 260px;
-  }
 }
 
 .card-container.flipped .card-inner {
   transform: rotateY(180deg);
 }
 
-.card-face img {
+.card-face {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: inherit;
-  z-index: 0;
+  border-radius: 0.875rem;
+  padding: 1rem;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
 }
 
-/* Mặt Úp Bài (Card Back) */
+/* Mặt hiển thị mặc định (ảnh / fallback icon) */
 .card-back {
-  background: radial-gradient(circle at 50% 50%, #151821 0%, #08090d 100%);
-  color: var(--text-primary);
-  border: 2px solid var(--color-primary);
-  box-shadow: 0 0 20px var(--color-primary-glow);
+  background: linear-gradient(160deg, #0f1220 0%, #080a12 100%);
+  transform: rotateY(0deg);
 }
 
-.card-back-ornament {
-  border: 1px solid rgba(142, 68, 173, 0.2);
-  width: 100%;
-  height: 100%;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-
-.card-back-ornament::before {
-  content: '';
-  position: absolute;
-  width: 85%;
-  height: 90%;
-  border: 1px dashed rgba(142, 68, 173, 0.1);
-  border-radius: 8px;
-}
-
-/* Mặt Ngửa Bài (Card Front) */
+/* Mặt lộ khi nhấn giữ (mô tả role) */
 .card-front {
-  background: radial-gradient(circle at 50% 30%, #1a1e29 0%, #0d0f14 100%);
+  background: linear-gradient(160deg, #0d0f1a 0%, #070810 100%);
   transform: rotateY(180deg);
 }
 
-.card-front.role-werewolf {
-  border: 2px solid var(--color-werewolf);
-  box-shadow: 0 0 25px var(--color-werewolf-glow);
-}
-
-.card-front.role-villager {
-  border: 2px solid var(--color-gold);
-  box-shadow: 0 0 25px var(--color-gold-glow);
-}
-
-.card-front.role-special {
-  border: 2px solid var(--color-primary);
-  box-shadow: 0 0 25px var(--color-primary-glow);
-}
-
-/* =========================================================================
-   HIỆU ỨNG LỬA TRẠI BẬP BÙNG (BONFIRE ANIMATION)
-   ========================================================================= */
-.bonfire-container {
+.card-back-content {
   position: relative;
-  width: 120px;
-  height: 120px;
-  margin: 20px auto;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-}
-
-.fire-glow {
-  position: absolute;
-  width: 140px;
-  height: 140px;
-  background: radial-gradient(circle, rgba(230, 126, 34, 0.25) 0%, rgba(230, 126, 34, 0) 70%);
-  border-radius: 50%;
-  bottom: -20px;
-  animation: pulse-glow 2s ease-in-out infinite alternate;
-}
-
-.fire-flame {
-  position: absolute;
-  width: 25px;
-  border-radius: 50% 50% 20% 20% / 60% 60% 40% 40%;
-  transform-origin: bottom center;
-}
-
-.flame-1 {
-  height: 70px;
-  background: linear-gradient(to top, #d35400, #e67e22, #f1c40f);
-  animation: flicker-1 1.5s ease-in-out infinite alternate;
-  left: 45px;
-  z-index: 3;
-}
-
-.flame-2 {
-  height: 50px;
-  background: linear-gradient(to top, #c0392b, #d35400, #e67e22);
-  animation: flicker-2 1.2s ease-in-out infinite alternate;
-  left: 30px;
-  z-index: 2;
-  opacity: 0.8;
-}
-
-.flame-3 {
-  height: 55px;
-  background: linear-gradient(to top, #d35400, #e67e22, #f39c12);
-  animation: flicker-3 1.8s ease-in-out infinite alternate;
-  left: 60px;
   z-index: 1;
-  opacity: 0.8;
 }
 
-.wood-logs {
-  position: absolute;
-  width: 80px;
-  height: 15px;
-  background: #3e2723;
-  border-radius: 4px;
-  bottom: 5px;
-  z-index: 4;
-  transform: rotate(-10deg);
+/* Role-specific border glow */
+.role-werewolf {
+  border: 1px solid rgba(192, 57, 43, 0.5);
+  box-shadow:
+    0 0 20px rgba(192, 57, 43, 0.25),
+    0 20px 40px rgba(0, 0, 0, 0.6),
+    inset 0 0 30px rgba(192, 57, 43, 0.06);
 }
-
-.wood-logs::after {
+.role-werewolf::before {
   content: '';
   position: absolute;
-  width: 80px;
-  height: 15px;
-  background: #270f07;
-  border-radius: 4px;
-  transform: rotate(20deg);
+  inset: 0;
+  border-radius: 0.875rem;
+  background: radial-gradient(ellipse at top, rgba(192, 57, 43, 0.08) 0%, transparent 60%);
+  pointer-events: none;
 }
 
-@keyframes pulse-glow {
-  0% { transform: scale(0.9); opacity: 0.8; }
-  100% { transform: scale(1.1); opacity: 1; }
+.role-villager {
+  border: 1px solid rgba(142, 68, 173, 0.35);
+  box-shadow:
+    0 0 16px rgba(142, 68, 173, 0.15),
+    0 20px 40px rgba(0, 0, 0, 0.6),
+    inset 0 0 30px rgba(142, 68, 173, 0.04);
 }
 
-@keyframes flicker-1 {
-  0% { transform: scaleX(0.9) scaleY(0.95) rotate(-2deg); }
-  50% { transform: scaleX(1.05) scaleY(1.05) rotate(1deg); }
-  100% { transform: scaleX(0.95) scaleY(1.02) rotate(-1deg); }
+.role-special {
+  border: 1px solid rgba(241, 196, 15, 0.35);
+  box-shadow:
+    0 0 20px rgba(241, 196, 15, 0.18),
+    0 20px 40px rgba(0, 0, 0, 0.6),
+    inset 0 0 30px rgba(241, 196, 15, 0.05);
+}
+.role-special::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 0.875rem;
+  background: radial-gradient(ellipse at top, rgba(241, 196, 15, 0.06) 0%, transparent 60%);
+  pointer-events: none;
 }
 
-@keyframes flicker-2 {
-  0% { transform: scaleX(1.05) scaleY(0.9) rotate(3deg); }
-  50% { transform: scaleX(0.9) scaleY(1.05) rotate(-2deg); }
-  100% { transform: scaleX(1) scaleY(1) rotate(1deg); }
+/* Placeholder (khi ảnh lỗi) */
+.card-face.placeholder {
+  background: linear-gradient(160deg, #0e1120 0%, #090b15 100%);
 }
 
-@keyframes flicker-3 {
-  0% { transform: scaleX(0.95) scaleY(1.02) rotate(-3deg); }
-  50% { transform: scaleX(1.02) scaleY(0.95) rotate(2deg); }
-  100% { transform: scaleX(0.9) scaleY(1.05) rotate(-1deg); }
+/* =============================================================================
+   ANIMATIONS
+   ============================================================================= */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fadeIn 0.35s ease-out both;
 }
 
-/* =========================================================================
-   STYLE CHO CÁC KHỐI & NÚT TRÊN GIAO DIỆN
-   ========================================================================= */
-.gothic-title {
-  font-family: var(--font-gothic);
-  font-size: 2.5rem;
-  letter-spacing: 3px;
-  text-shadow: 0 0 10px rgba(142, 68, 173, 0.4);
-  color: var(--text-primary);
-  margin: 15px 0;
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out both;
 }
 
-.gothic-subtitle {
-  font-family: var(--font-gothic);
-  font-size: 1.1rem;
-  letter-spacing: 2px;
-  color: var(--color-gold);
+/* Tailwind's animate-spin — fallback nếu không load được */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.animate-spin { animation: spin 1s linear infinite; }
+
+@keyframes ping {
+  75%, 100% { transform: scale(2); opacity: 0; }
+}
+.animate-ping { animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+.animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+/* =============================================================================
+   SCROLLBAR GLOBAL
+   ============================================================================= */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(142, 68, 173, 0.25) transparent;
+}
+*::-webkit-scrollbar { width: 5px; height: 5px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(142, 68, 173, 0.3);
+  border-radius: 3px;
 }
 
-.btn-premium {
-  background: linear-gradient(135deg, #8e44ad 0%, #6c3483 100%);
-  color: var(--text-primary);
-  font-family: var(--font-sans);
-  font-weight: 600;
-  font-size: 1rem;
-  letter-spacing: 1px;
-  border: none;
-  border-radius: 30px;
-  padding: 12px 28px;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 15px rgba(142, 68, 173, 0.4);
-  display: inline-flex;
+/* =============================================================================
+   SETUP SCREEN — CARD BUTTONS (Tạo Phòng Mặc Định / Tùy Chỉnh)
+   ============================================================================= */
+.setup-card {
+  display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background-color: #0e1120;
+  border: 1px solid var(--color-border);
+  border-radius: 0.875rem;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
 }
-
-.btn-premium:hover {
+.setup-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(142, 68, 173, 0.6);
-  background: linear-gradient(135deg, #9b59b6 0%, #7d3c98 100%);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+.setup-card:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+.setup-card.preset:hover {
+  border-color: rgba(142, 68, 173, 0.5);
+  background-color: #111428;
+  box-shadow: 0 8px 24px rgba(142, 68, 173, 0.12);
+}
+.setup-card.custom:hover {
+  border-color: rgba(230, 126, 34, 0.45);
+  background-color: #141008;
+  box-shadow: 0 8px 24px rgba(230, 126, 34, 0.1);
 }
 
-.btn-premium:active {
-  transform: translateY(0);
+/* =============================================================================
+   GOTHIC SELECT (dropdown trong RoleConfigPanel)
+   ============================================================================= */
+.gothic-select {
+  width: 100%;
+  background-color: #0a0c14;
+  border: 1px solid var(--color-border);
+  color: #e5e5e5;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.8rem;
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238e44ad' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2.25rem;
+}
+.gothic-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(142, 68, 173, 0.15);
+}
+.gothic-select option {
+  background-color: #0d0f1a;
+  color: #e5e5e5;
 }
 
-.btn-secondary {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
-  border-radius: 30px;
-  padding: 12px 28px;
+/* =============================================================================
+   SPELLBOOK PANEL (Wizard đêm — atmosphere đặc biệt)
+   ============================================================================= */
+.spellbook-panel {
+  position: relative;
+  background: linear-gradient(160deg, rgba(12, 10, 22, 0.95) 0%, rgba(8, 7, 15, 0.98) 100%);
+  border: 1px solid rgba(142, 68, 173, 0.25);
+  padding: 1.5rem;
+  border-radius: 0.875rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow:
+    0 0 40px rgba(142, 68, 173, 0.08),
+    0 20px 40px rgba(0, 0, 0, 0.5),
+    inset 0 0 60px rgba(142, 68, 173, 0.03);
+  overflow: hidden;
+}
+/* Hiệu ứng tinh tú lấp lánh góc trên */
+.spellbook-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(142, 68, 173, 0.5), rgba(241, 196, 15, 0.3), transparent);
+  pointer-events: none;
+}
+.spellbook-panel::after {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(142, 68, 173, 0.06) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* =============================================================================
+   TARGET BUTTONS (nút chọn người chơi trong Wizard)
+   ============================================================================= */
+.target-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0.875rem;
+  background-color: #0a0c14;
+  border: 1px solid var(--color-border);
+  border-radius: 0.625rem;
+  color: #9ca3af;
+  font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  display: inline-flex;
+  transition: all 0.15s ease;
+  text-align: left;
+  width: 100%;
+}
+.target-btn:hover {
+  border-color: #4b5563;
+  color: white;
+  background-color: #0f1220;
+}
+
+/* Werewolf target */
+.target-btn.active-wolf {
+  border-color: rgba(192, 57, 43, 0.7);
+  background-color: rgba(192, 57, 43, 0.08);
+  color: white;
+  box-shadow: 0 0 12px rgba(192, 57, 43, 0.2);
+}
+/* Bodyguard protect */
+.target-btn.active-guard {
+  border-color: rgba(46, 204, 113, 0.7);
+  background-color: rgba(46, 204, 113, 0.07);
+  color: white;
+  box-shadow: 0 0 12px rgba(46, 204, 113, 0.15);
+}
+/* Seer / neutral */
+.target-btn.active-neutral {
+  border-color: rgba(142, 68, 173, 0.7);
+  background-color: rgba(142, 68, 173, 0.08);
+  color: white;
+  box-shadow: 0 0 12px rgba(142, 68, 173, 0.2);
+}
+/* Witch poison / serial killer */
+.target-btn.active-poison {
+  border-color: rgba(155, 89, 182, 0.7);
+  background-color: rgba(155, 89, 182, 0.08);
+  color: white;
+  box-shadow: 0 0 12px rgba(155, 89, 182, 0.2);
+}
+
+/* =============================================================================
+   SCOREBOARD CARDS (Bảng ghi nhớ — trạng thái sống/chết)
+   ============================================================================= */
+.scoreboard-card {
+  display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
+  padding: 0.875rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-border);
+  background-color: #0c0f17;
+  transition: all 0.2s ease;
+}
+.scoreboard-card.alive {
+  border-color: var(--color-border);
+  background-color: #0c0f17;
+}
+.scoreboard-card.alive:hover {
+  border-color: rgba(142, 68, 173, 0.25);
+}
+.scoreboard-card.dead {
+  border-color: rgba(192, 57, 43, 0.2);
+  background-color: rgba(192, 57, 43, 0.04);
+  opacity: 0.55;
 }
 
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: var(--border-color-focus);
+/* =============================================================================
+   PROGRESS BAR SHIMMER (lobby progress bar khi chưa đủ người)
+   ============================================================================= */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
 }
-
-.glass-panel {
-  background: rgba(13, 15, 20, 0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--border-color);
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-/* =========================================================================
-   SCROLLBAR & TEXT UTILITIES
-   ========================================================================= */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-dark);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--border-color);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--border-color-focus);
-}
-
-.text-gradient-purple {
-  background: linear-gradient(135deg, #c39bd3, #8e44ad);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.text-gradient-blood {
-  background: linear-gradient(135deg, #f1948a, #c0392b);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.progress-shimmer {
+  background: linear-gradient(
+    90deg,
+    #8e44ad 0%,
+    #9b59b6 40%,
+    #c39bd3 50%,
+    #9b59b6 60%,
+    #8e44ad 100%
+  );
+  background-size: 200% auto;
+  animation: shimmer 2.5s linear infinite;
 }

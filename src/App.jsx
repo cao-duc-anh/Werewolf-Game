@@ -18,7 +18,9 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col justify-between relative overflow-hidden select-none">
       
-      {/* HIỆU ỨNG SƯƠNG MÙ KHÓI PREMIUM NỀN (FOG LAYERS) */}
+      {/* VÒNG TRÒN PHÁT SÁNG NỀN MA THUẬT VÀ SƯƠNG MÙ KHÓI PREMIUM (AMBIENT GLOWS & FOG) */}
+      <div className="glow-blob-purple" />
+      <div className="glow-blob-red" />
       <div className="fog-wrapper">
         <div className="fog-layer" />
         <div className="fog-layer-2" />

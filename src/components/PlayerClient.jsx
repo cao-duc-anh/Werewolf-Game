@@ -69,8 +69,19 @@ export default function PlayerClient({ onBackToRoleSelect }) {
           if (roomData.status === 'playing' || roomData.status === 'night_phase' || roomData.status === 'day_phase') {
             // Game đã bắt đầu, lấy vai trò
             fetchMyRoleAndProceed();
-          } else if (roomData.status === 'finished' || roomData.status === 'waiting') {
-            // Game kết thúc, reset về lobby
+          } 
+          else if (roomData.status === 'disbanded') {
+            // Phòng bị host xóa — kick toàn bộ người chơi ra ngoài
+            localStorage.removeItem('ww_player_room');
+            localStorage.removeItem('ww_player_name');
+            localStorage.removeItem('ww_player_id');
+            setPlayerId(null);
+            setRoomCode('');
+            setMyRole(null);
+            setErrorMsg('⚠️ Quản Trò đã xóa phòng. Bạn đã bị đưa ra ngoài.');
+            setStep('join');
+          } 
+          else if (roomData.status === 'finished' || roomData.status === 'waiting') {
             setStep('lobby');
             setMyRole(null);
           }
@@ -242,7 +253,7 @@ export default function PlayerClient({ onBackToRoleSelect }) {
 
           <form onSubmit={handleJoinRoom} className="space-y-4">
             <div>
-              <label className="block text-left text-xs uppercase tracking-wider text-gray-400 mb-1 font-semibold">
+              <label className="block text-left text-xs uppercase tracking-wider text-gray-400 mb-1.5 font-semibold">
                 Mã Phòng (4 ký tự)
               </label>
               <input 
@@ -251,21 +262,21 @@ export default function PlayerClient({ onBackToRoleSelect }) {
                 placeholder="Ví dụ: WOLF"
                 value={roomCode}
                 onChange={(e) => setRoomCode(e.target.value.toUpperCase())}
-                className="w-full bg-[#161a24] border border-[#272935] focus:border-[#8e44ad] text-white text-center text-lg font-bold rounded-lg px-4 py-3 outline-none transition-all uppercase placeholder-gray-600"
+                className="gothic-input text-center text-lg font-bold uppercase placeholder-gray-600"
               />
             </div>
 
             <div>
-              <label className="block text-left text-xs uppercase tracking-wider text-gray-400 mb-1 font-semibold">
+              <label className="block text-left text-xs uppercase tracking-wider text-gray-400 mb-1.5 font-semibold">
                 Tên Của Bạn
               </label>
               <input 
                 type="text" 
                 maxLength={15}
-                placeholder="Ví dụ: Cao Dũng"
+                placeholder="Ví dụ: Gấu Mèo"
                 value={playerName}
                 onChange={(e) => setPlayerName(e.target.value)}
-                className="w-full bg-[#161a24] border border-[#272935] focus:border-[#8e44ad] text-white text-center rounded-lg px-4 py-3 outline-none transition-all placeholder-gray-600"
+                className="gothic-input text-center placeholder-gray-600"
               />
             </div>
 
@@ -330,24 +341,24 @@ export default function PlayerClient({ onBackToRoleSelect }) {
               <span className="text-[#8e44ad] animate-pulse">● Realtime</span>
             </div>
             
-            <div className="bg-[#121620] border border-[#272935] rounded-lg max-h-[180px] overflow-y-auto divide-y divide-[#1b1f2b]">
+            <div className="scroll-diary space-y-2 max-h-[220px] overflow-y-auto pr-1">
               {playersList.map((player) => (
                 <div 
                   key={player.id} 
-                  className={`flex items-center justify-between px-4 py-2.5 text-sm ${
-                    player.id === playerId ? 'bg-[#8e44ad] bg-opacity-10' : ''
+                  className={`player-card-tile justify-between ${
+                    player.id === playerId ? 'border-[#8e44ad] border-opacity-40 bg-[#8e44ad] bg-opacity-5' : ''
                   }`}
                 >
-                  <span className="font-semibold text-gray-200">
-                    {player.name} {player.id === playerId && <span className="text-[10px] text-[#8e44ad] ml-1 bg-[#8e44ad] bg-opacity-25 px-1.5 py-0.5 rounded">(Bạn)</span>}
+                  <span className="font-semibold text-gray-200 text-sm">
+                    {player.name} {player.id === playerId && <span className="text-[10px] text-[#8e44ad] ml-1 bg-[#8e44ad] bg-opacity-20 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">(Bạn)</span>}
                   </span>
-                  <span className="text-xs text-green-500 flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-ping" /> Sẵn sàng
+                  <span className="text-xs text-green-400 flex items-center gap-1.5 font-medium">
+                    <span className="led-ready" /> Sẵn sàng
                   </span>
                 </div>
               ))}
               {playersList.length === 0 && (
-                <div className="p-4 text-xs text-gray-500">Chưa có ai vào phòng...</div>
+                <div className="p-8 text-center text-xs text-gray-500 bg-[#0c0f17] border border-[#272935] rounded-xl">Chưa có ai vào phòng...</div>
               )}
             </div>
           </div>
@@ -396,9 +407,9 @@ export default function PlayerClient({ onBackToRoleSelect }) {
          ========================================================================= */}
       {step === 'sleep' && (
         <div className="glass-panel text-center animate-fade-in py-10 space-y-6">
-          <div className="relative w-20 h-20 mx-auto flex items-center justify-center bg-[#07080a] border border-[#f1c40f] border-opacity-20 rounded-full">
+          <div className="relative w-20 h-20 mx-auto flex items-center justify-center bg-[#07080a] border border-[#f1c40f] border-opacity-30 rounded-full shadow-[0_0_30px_rgba(241,196,15,0.15)]">
             {/* Hiệu ứng trăng khuyết phát sáng nhẹ */}
-            <div className="absolute w-20 h-20 rounded-full border border-[#f1c40f] border-opacity-10 animate-ping" />
+            <div className="absolute inset-0 rounded-full border border-[#f1c40f] border-opacity-20 animate-ping" style={{ animationDuration: '3s' }} />
             <Moon className="w-10 h-10 text-[#f1c40f] animate-pulse" />
           </div>
 
